@@ -1,0 +1,1799 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meu Primeiro Ativo Digital com IA — Guilherme Fellet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --preto:        #0A0A0A;
+  --preto-2:      #111111;
+  --preto-3:      #1A1A1A;
+  --preto-4:      #242424;
+  --dourado:      #C9A84C;
+  --dourado-light:#E2C97E;
+  --dourado-dark: #8B6D2E;
+  --branco:       #FFFFFF;
+  --cinza:        #888888;
+  --cinza-light:  #BBBBBB;
+  --border:       rgba(201,168,76,0.15);
+  --border-subtle:rgba(255,255,255,0.06);
+  --serif:        'Cormorant Garamond', Georgia, serif;
+  --sans:         'Inter', -apple-system, sans-serif;
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--preto);
+  color: var(--branco);
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* ── URGENCY BAR ── */
+.urgency-bar {
+  background: linear-gradient(90deg, var(--dourado-dark), var(--dourado), var(--dourado-dark));
+  text-align: center;
+  padding: 11px 20px;
+  font-family: var(--sans);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--preto);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 80px 60px 60px;
+  gap: 80px;
+  position: relative;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background:
+    radial-gradient(ellipse 60% 50% at 30% 40%, rgba(201,168,76,0.06) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 60% at 70% 60%, rgba(201,168,76,0.03) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.hero-content { position: relative; z-index: 1; }
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid var(--border);
+  padding: 7px 16px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--dourado);
+  margin-bottom: 36px;
+}
+
+.hero-badge::before {
+  content: '';
+  width: 5px; height: 5px;
+  background: var(--dourado);
+  border-radius: 50%;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(1.5); }
+}
+
+.hero h1 {
+  font-family: var(--serif);
+  font-size: clamp(2.6rem, 4vw, 4rem);
+  font-weight: 400;
+  line-height: 1.1;
+  color: var(--branco);
+  margin-bottom: 10px;
+  letter-spacing: -0.01em;
+}
+
+.hero h1 em {
+  font-style: italic;
+  color: var(--dourado-light);
+}
+
+.hero h1 strong {
+  font-weight: 600;
+  display: block;
+  font-size: clamp(3rem, 5vw, 4.8rem);
+}
+
+.hero-rule {
+  width: 48px; height: 1px;
+  background: linear-gradient(90deg, var(--dourado), transparent);
+  margin: 28px 0;
+}
+
+.hero-sub {
+  font-size: 17px;
+  color: var(--cinza-light);
+  line-height: 1.75;
+  max-width: 480px;
+  font-weight: 300;
+  margin-bottom: 40px;
+}
+
+.hero-sub strong {
+  color: var(--branco);
+  font-weight: 500;
+}
+
+.hero-cta-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: linear-gradient(135deg, var(--dourado-dark), var(--dourado), var(--dourado-light));
+  color: var(--preto);
+  font-family: var(--sans);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 18px 40px;
+  text-decoration: none;
+  transition: opacity 0.2s, transform 0.2s;
+  box-shadow: 0 8px 40px rgba(201,168,76,0.25);
+}
+
+.btn-primary:hover {
+  opacity: 0.9;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 50px rgba(201,168,76,0.35);
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid var(--border);
+  color: var(--dourado);
+  font-family: var(--sans);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 16px 36px;
+  text-decoration: none;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.btn-secondary:hover {
+  background: rgba(201,168,76,0.06);
+  border-color: var(--dourado);
+}
+
+.hero-price-note {
+  font-size: 13px;
+  color: var(--cinza);
+  font-weight: 300;
+}
+
+.hero-price-note s { color: rgba(255,255,255,0.3); }
+.hero-price-note strong { color: var(--dourado-light); font-weight: 600; }
+
+.hero-photo {
+  position: relative;
+  z-index: 1;
+}
+
+.hero-photo-inner {
+  position: relative;
+  border: 1px solid var(--border);
+}
+
+.hero-photo img {
+  width: 100%;
+  height: 680px;
+  object-fit: cover;
+  object-position: top center;
+  display: block;
+  filter: brightness(0.92) contrast(1.05);
+}
+
+.hero-photo-inner::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  background: linear-gradient(135deg, rgba(201,168,76,0.2) 0%, transparent 50%, rgba(201,168,76,0.1) 100%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.hero-photo-inner::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 35%;
+  background: linear-gradient(to top, var(--preto), transparent);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.hero-photo-tag {
+  position: absolute;
+  bottom: 28px;
+  left: 28px;
+  z-index: 2;
+}
+
+.hero-photo-tag .name {
+  font-family: var(--serif);
+  font-size: 22px;
+  font-weight: 400;
+  color: var(--branco);
+  line-height: 1.2;
+}
+
+.hero-photo-tag .title {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--dourado);
+  margin-top: 4px;
+}
+
+.hero-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  margin-top: 40px;
+}
+
+.stat-item {
+  background: var(--preto);
+  padding: 20px 16px;
+  text-align: center;
+}
+
+.stat-number {
+  font-family: var(--serif);
+  font-size: 1.8rem;
+  font-weight: 500;
+  color: var(--dourado-light);
+  line-height: 1;
+  display: block;
+}
+
+.stat-label {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--cinza);
+  margin-top: 5px;
+  display: block;
+}
+
+/* ── CREDIBILITY STRIP ── */
+.cred-strip {
+  border-top: 1px solid var(--border-subtle);
+  border-bottom: 1px solid var(--border-subtle);
+  padding: 24px 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  background: var(--preto-2);
+}
+
+.cred-label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--cinza);
+  margin-right: 16px;
+  white-space: nowrap;
+}
+
+.cred-name {
+  font-size: 12px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.45);
+  letter-spacing: 0.06em;
+  padding: 5px 14px;
+  border: 1px solid rgba(255,255,255,0.07);
+  white-space: nowrap;
+}
+
+/* ── SECTIONS ── */
+section { padding: 100px 60px; }
+.container { max-width: 900px; margin: 0 auto; }
+.container-wide { max-width: 1140px; margin: 0 auto; }
+
+.section-tag {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--dourado);
+  margin-bottom: 20px;
+  display: block;
+}
+
+.section-title {
+  font-family: var(--serif);
+  font-size: clamp(2rem, 3.5vw, 3.2rem);
+  font-weight: 400;
+  color: var(--branco);
+  line-height: 1.15;
+  margin-bottom: 24px;
+  letter-spacing: -0.01em;
+}
+
+.section-title em { font-style: italic; color: var(--dourado-light); }
+.section-title strong { font-weight: 600; }
+
+.section-body {
+  font-size: 17px;
+  color: var(--cinza-light);
+  line-height: 1.85;
+  font-weight: 300;
+}
+
+.section-body strong { color: var(--branco); font-weight: 500; }
+
+.gold-rule {
+  width: 48px; height: 1px;
+  background: linear-gradient(90deg, var(--dourado), transparent);
+  margin: 32px 0;
+}
+
+/* ── PROBLEMA ── */
+.problema { background: var(--preto); }
+
+.problema-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+
+.problema-dores {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 32px;
+}
+
+.dor-item {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  padding: 20px 24px;
+  border: 1px solid var(--border-subtle);
+  background: var(--preto-2);
+  transition: border-color 0.2s;
+}
+
+.dor-item:hover { border-color: var(--border); }
+
+.dor-num {
+  font-family: var(--serif);
+  font-size: 1.6rem;
+  font-weight: 300;
+  color: rgba(201,168,76,0.3);
+  line-height: 1;
+  flex-shrink: 0;
+  width: 28px;
+}
+
+.dor-text {
+  font-size: 15px;
+  color: var(--cinza-light);
+  line-height: 1.6;
+  font-weight: 300;
+}
+
+.dor-text strong { color: var(--branco); font-weight: 500; }
+
+/* ── MECANISMO ── */
+.mecanismo { background: var(--preto-2); border-top: 1px solid var(--border-subtle); border-bottom: 1px solid var(--border-subtle); }
+
+.agentes-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  margin-top: 48px;
+}
+
+.agente-item {
+  background: var(--preto);
+  padding: 32px 24px;
+  position: relative;
+}
+
+.agente-num {
+  font-family: var(--serif);
+  font-size: 3rem;
+  font-weight: 300;
+  color: rgba(201,168,76,0.12);
+  line-height: 1;
+  margin-bottom: 16px;
+  display: block;
+}
+
+.agente-nome {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--dourado);
+  margin-bottom: 10px;
+}
+
+.agente-desc {
+  font-size: 13px;
+  color: var(--cinza);
+  line-height: 1.6;
+  font-weight: 300;
+}
+
+.mecanismo-bottom {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  margin-top: 48px;
+  align-items: center;
+}
+
+.resultado-box {
+  background: linear-gradient(135deg, rgba(201,168,76,0.08), rgba(201,168,76,0.02));
+  border: 1px solid var(--border);
+  padding: 40px;
+}
+
+.resultado-box .resultado-num {
+  font-family: var(--serif);
+  font-size: 4rem;
+  font-weight: 300;
+  color: var(--dourado-light);
+  line-height: 1;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.resultado-box .resultado-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--cinza);
+}
+
+.resultado-box .resultado-desc {
+  font-size: 16px;
+  color: var(--cinza-light);
+  line-height: 1.7;
+  margin-top: 20px;
+  font-weight: 300;
+}
+
+/* ── ENTREGÁVEIS ── */
+.entregaveis { background: var(--preto); }
+
+.entregaveis-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  margin-top: 48px;
+}
+
+.entregavel-item {
+  background: var(--preto);
+  display: grid;
+  grid-template-columns: 80px 1fr auto;
+  align-items: center;
+  gap: 32px;
+  padding: 32px 40px;
+  transition: background 0.2s;
+}
+
+.entregavel-item:hover { background: var(--preto-2); }
+
+.entregavel-index {
+  font-family: var(--serif);
+  font-size: 2.8rem;
+  font-weight: 300;
+  color: rgba(201,168,76,0.2);
+  line-height: 1;
+  text-align: center;
+}
+
+.entregavel-content h4 {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--branco);
+  margin-bottom: 6px;
+  letter-spacing: 0.02em;
+}
+
+.entregavel-content p {
+  font-size: 14px;
+  color: var(--cinza);
+  font-weight: 300;
+  line-height: 1.5;
+}
+
+.entregavel-valor {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.entregavel-valor .de {
+  font-size: 11px;
+  color: rgba(255,255,255,0.2);
+  text-decoration: line-through;
+  display: block;
+}
+
+.entregavel-valor .val {
+  font-family: var(--serif);
+  font-size: 1.4rem;
+  font-weight: 400;
+  color: var(--dourado-light);
+}
+
+.entregaveis-total {
+  background: var(--preto-2);
+  border: 1px solid var(--border);
+  padding: 28px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 1px;
+}
+
+.entregaveis-total .total-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--cinza);
+}
+
+.entregaveis-total .total-de {
+  font-size: 14px;
+  color: rgba(255,255,255,0.25);
+  text-decoration: line-through;
+  margin-right: 16px;
+}
+
+.entregaveis-total .total-por {
+  font-family: var(--serif);
+  font-size: 2.4rem;
+  font-weight: 400;
+  color: var(--dourado-light);
+}
+
+/* ── PARA QUEM ── */
+.para-quem { background: var(--preto-2); border-top: 1px solid var(--border-subtle); }
+
+.check-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 40px;
+}
+
+.check-item {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  padding: 22px 24px;
+  background: var(--preto);
+  border: 1px solid var(--border-subtle);
+  transition: border-color 0.2s;
+}
+
+.check-item:hover { border-color: var(--border); }
+
+.check-icon {
+  width: 22px; height: 22px;
+  border: 1px solid var(--dourado-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.check-icon::after {
+  content: '';
+  width: 8px; height: 8px;
+  background: var(--dourado);
+  display: block;
+}
+
+.check-text {
+  font-size: 15px;
+  color: var(--cinza-light);
+  line-height: 1.55;
+  font-weight: 300;
+}
+
+.check-text strong { color: var(--branco); font-weight: 500; }
+
+.nao-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.nao-item {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  padding: 18px 24px;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.04);
+}
+
+.nao-icon {
+  width: 22px; height: 22px;
+  border: 1px solid rgba(255,255,255,0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 2px;
+  font-size: 12px;
+  color: rgba(255,255,255,0.2);
+  font-family: var(--serif);
+}
+
+.nao-text {
+  font-size: 14px;
+  color: rgba(255,255,255,0.3);
+  line-height: 1.55;
+  font-weight: 300;
+}
+
+/* ── PROVA SOCIAL ── */
+.prova-social { background: var(--preto); }
+
+.resultados-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  margin-top: 48px;
+}
+
+.resultado-card {
+  background: var(--preto-2);
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.resultado-card-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.resultado-avatar {
+  width: 36px; height: 36px;
+  background: var(--preto-3);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--serif);
+  font-size: 14px;
+  color: var(--dourado);
+  flex-shrink: 0;
+}
+
+.resultado-nome {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--branco);
+}
+
+.resultado-cargo {
+  font-size: 11px;
+  color: var(--cinza);
+  font-weight: 300;
+}
+
+.resultado-valor {
+  font-family: var(--serif);
+  font-size: 2.4rem;
+  font-weight: 400;
+  color: var(--dourado-light);
+  line-height: 1;
+}
+
+.resultado-valor-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--cinza);
+  margin-top: 4px;
+}
+
+.resultado-depo {
+  font-size: 14px;
+  color: var(--cinza-light);
+  line-height: 1.65;
+  font-weight: 300;
+  font-style: italic;
+  border-left: 2px solid var(--border);
+  padding-left: 16px;
+}
+
+.resultado-depo strong { color: var(--branco); font-style: normal; font-weight: 500; }
+
+.resultado-tag {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--dourado);
+  background: rgba(201,168,76,0.06);
+  border: 1px solid var(--border);
+  padding: 4px 12px;
+  display: inline-block;
+  width: fit-content;
+}
+
+.passou-sessao {
+  font-size: 11px;
+  color: rgba(255,255,255,0.3);
+  font-style: italic;
+  margin-top: 12px;
+  display: block;
+  line-height: 1.5;
+}
+
+.credenciais-section {
+  margin-top: 80px;
+  padding-top: 60px;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.credenciais-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  margin-top: 32px;
+}
+
+.cred-item {
+  background: var(--preto-2);
+  padding: 20px 16px;
+  text-align: center;
+}
+
+.cred-item-name {
+  font-size: 12px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.5);
+  line-height: 1.3;
+}
+
+/* ── BIO ── */
+.bio { background: var(--preto-2); border-top: 1px solid var(--border-subtle); border-bottom: 1px solid var(--border-subtle); }
+
+.bio-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: 80px;
+  align-items: center;
+}
+
+.bio-photo {
+  position: relative;
+  border: 1px solid var(--border);
+}
+
+.bio-photo img {
+  width: 100%;
+  height: 600px;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+  filter: brightness(0.88) contrast(1.05);
+}
+
+.bio-photo::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 30%;
+  background: linear-gradient(to top, var(--preto-2), transparent);
+  pointer-events: none;
+}
+
+.bio-content {}
+
+.bio-conquistas {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 36px;
+  margin-bottom: 36px;
+}
+
+.conquista-item {
+  padding: 20px;
+  background: var(--preto);
+  border: 1px solid var(--border-subtle);
+}
+
+.conquista-num {
+  font-family: var(--serif);
+  font-size: 1.8rem;
+  font-weight: 400;
+  color: var(--dourado-light);
+  line-height: 1;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.conquista-label {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--cinza);
+}
+
+/* ── GARANTIA ── */
+.garantia { background: var(--preto); }
+
+.garantia-box {
+  border: 1px solid var(--border);
+  padding: 60px;
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 48px;
+  align-items: center;
+  background: linear-gradient(135deg, rgba(201,168,76,0.04) 0%, transparent 60%);
+}
+
+.garantia-icon {
+  width: 100px; height: 100px;
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.garantia-icon .dias {
+  font-family: var(--serif);
+  font-size: 2.2rem;
+  font-weight: 400;
+  color: var(--dourado-light);
+  line-height: 1;
+}
+
+.garantia-icon .label {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--cinza);
+}
+
+/* ── PREÇO ── */
+.preco-section { background: var(--preto-2); border-top: 1px solid var(--border-subtle); }
+
+.preco-box {
+  border: 1px solid var(--border);
+  padding: 60px;
+  text-align: center;
+  position: relative;
+  background: linear-gradient(135deg, rgba(201,168,76,0.06) 0%, transparent 50%);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.preco-box::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--dourado), transparent);
+}
+
+.preco-original {
+  font-size: 16px;
+  color: rgba(255,255,255,0.25);
+  text-decoration: line-through;
+  margin-bottom: 8px;
+}
+
+.preco-promo {
+  font-family: var(--serif);
+  font-size: 5rem;
+  font-weight: 400;
+  color: var(--dourado-light);
+  line-height: 1;
+  margin-bottom: 8px;
+}
+
+.preco-parcelas {
+  font-size: 14px;
+  color: var(--cinza);
+  font-weight: 300;
+  margin-bottom: 36px;
+}
+
+.preco-ancoragem {
+  text-align: center;
+  margin-top: 28px;
+}
+
+.preco-ancoragem .preco-original {
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+
+.preco-ancoragem .preco-promo {
+  font-size: 2.8rem;
+  margin-bottom: 4px;
+}
+
+.preco-ancoragem .preco-parcelas {
+  margin-bottom: 0;
+}
+
+.sessao-aviso {
+  margin-top: 32px;
+  padding: 20px 24px;
+  border: 1px solid var(--border-subtle);
+  border-left: 3px solid var(--dourado);
+  background: rgba(201,168,76,0.03);
+  max-width: 520px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.sessao-aviso p {
+  font-size: 13px;
+  color: rgba(255,255,255,0.45);
+  line-height: 1.7;
+  margin: 0;
+}
+
+.sessao-aviso strong {
+  color: rgba(255,255,255,0.65);
+  font-weight: 600;
+}
+
+.preco-cta-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.preco-seguro {
+  font-size: 11px;
+  color: var(--cinza);
+  font-weight: 300;
+  letter-spacing: 0.06em;
+}
+
+/* ── FAQ ── */
+.faq { background: var(--preto); }
+
+.faq-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  margin-top: 48px;
+}
+
+.faq-item {
+  background: var(--preto-2);
+}
+
+.faq-question {
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 24px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  cursor: pointer;
+  text-align: left;
+}
+
+.faq-question-text {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--branco);
+  line-height: 1.5;
+}
+
+.faq-toggle {
+  font-family: var(--serif);
+  font-size: 1.4rem;
+  color: var(--dourado);
+  flex-shrink: 0;
+  transition: transform 0.3s;
+  line-height: 1;
+}
+
+.faq-item.open .faq-toggle {
+  transform: rotate(45deg);
+}
+
+.faq-answer {
+  display: none;
+  padding: 0 32px 24px;
+  font-size: 15px;
+  color: var(--cinza-light);
+  line-height: 1.75;
+  font-weight: 300;
+  border-top: 1px solid var(--border-subtle);
+  padding-top: 20px;
+  margin: 0 0 0 0;
+}
+
+.faq-answer strong { color: var(--branco); font-weight: 500; }
+.faq-item.open .faq-answer { display: block; }
+
+/* ── CTA FINAL ── */
+.cta-final {
+  background: var(--preto-2);
+  border-top: 1px solid var(--border-subtle);
+  text-align: center;
+  padding: 120px 60px;
+}
+
+.cta-final-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+  text-align: left;
+}
+
+.cta-final-photo img {
+  width: 100%;
+  height: 500px;
+  object-fit: cover;
+  object-position: center top;
+  border: 1px solid var(--border);
+  filter: brightness(0.85) contrast(1.05);
+}
+
+/* ── FOOTER ── */
+footer {
+  background: var(--preto);
+  border-top: 1px solid var(--border-subtle);
+  padding: 32px 60px;
+  text-align: center;
+}
+
+.footer-text {
+  font-size: 12px;
+  color: rgba(255,255,255,0.2);
+  font-weight: 300;
+  line-height: 1.8;
+}
+
+/* ── MOBILE ── */
+@media (max-width: 900px) {
+  .hero { grid-template-columns: 1fr; padding: 60px 24px 40px; gap: 48px; min-height: auto; }
+  .hero-photo { order: 1; }
+  .hero-photo img { height: 420px; }
+  .hero h1 { font-size: 2.4rem; }
+  .hero h1 strong { font-size: 2.8rem; }
+  section { padding: 72px 24px; }
+  .cred-strip { padding: 20px 24px; }
+  .problema-grid { grid-template-columns: 1fr; gap: 48px; }
+  .agentes-grid { grid-template-columns: 1fr 1fr; }
+  .mecanismo-bottom { grid-template-columns: 1fr; }
+  .entregavel-item { grid-template-columns: 50px 1fr; gap: 16px; padding: 24px; }
+  .entregavel-valor { display: none; }
+  .check-grid { grid-template-columns: 1fr; }
+  .nao-grid { grid-template-columns: 1fr; }
+  .resultados-grid { grid-template-columns: 1fr; }
+  .credenciais-grid { grid-template-columns: repeat(3, 1fr); }
+  .players-foto-grid { grid-template-columns: 1fr !important; }
+  .prints-grid { grid-template-columns: 1fr !important; }
+  .players-circles { grid-template-columns: repeat(3, 1fr) !important; gap: 20px !important; padding: 0 !important; }
+  .bio-grid { grid-template-columns: 1fr; gap: 40px; }
+  .bio-photo img { height: 400px; }
+  .bio-conquistas { grid-template-columns: 1fr 1fr; }
+  .garantia-box { grid-template-columns: 1fr; text-align: center; padding: 40px 24px; }
+  .preco-box { padding: 40px 24px; }
+  .preco-por { font-size: 3.5rem; }
+  .faq-question { padding: 18px 16px; gap: 12px; }
+  .faq-question-text { font-size: 14px; word-break: break-word; overflow-wrap: break-word; }
+  .faq-answer { padding: 0 16px 20px; padding-top: 16px; font-size: 14px; }
+  .cta-final { padding: 80px 24px; }
+  .cta-final-grid { grid-template-columns: 1fr; gap: 48px; }
+  footer { padding: 28px 24px; }
+  .hero-stats { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (max-width: 560px) {
+  .agentes-grid { grid-template-columns: 1fr; }
+  .credenciais-grid { grid-template-columns: repeat(2, 1fr); }
+  .entregaveis-total { flex-direction: column; gap: 8px; text-align: center; }
+  .players-circles { grid-template-columns: repeat(2, 1fr) !important; }
+  .faq-question-text { font-size: 13px; }
+  .resultado-card[style*="flex-direction: row"] { flex-direction: column !important; }
+}
+</style>
+</head>
+<body>
+
+<!-- URGENCY BAR -->
+<div class="urgency-bar">
+  Reativação especial &nbsp;·&nbsp; Apenas R$67 &nbsp;·&nbsp; Acesso imediato após o pagamento
+</div>
+
+<!-- HERO -->
+<section style="padding: 0; background: var(--preto);">
+  <div class="hero">
+    <div class="hero-content">
+      <div class="hero-badge">Método de Alavancagem Digital</div>
+      <h1>
+        Você já tem o que<br>os gurus tentam vender.
+        <strong><em>Falta o ativo.</em></strong>
+      </h1>
+      <div class="hero-rule"></div>
+      <p class="hero-sub">
+        Em 7 dias, com IA, você sai com um produto digital estruturado, precificado e pronto para fazer a primeira venda — <strong>sem precisar de audiência, sem perder credibilidade e sem virar guru.</strong>
+      </p>
+      <div class="hero-cta-wrap">
+        <a href="https://pay.kiwify.com.br/bYulbzr" class="btn-primary" target="_blank" rel="noopener">
+          Garantir meu acesso por R$67
+        </a>
+        <span class="hero-price-note"><s>De R$297</s> &nbsp;—&nbsp; <strong>Apenas R$67</strong> ou 12x de R$6,33 &nbsp;·&nbsp; Garantia de 7 dias</span>
+      </div>
+
+      <div class="hero-stats">
+        <div class="stat-item">
+          <span class="stat-number">7</span>
+          <span class="stat-label">Dias para o ativo</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number">5</span>
+          <span class="stat-label">Agentes de IA</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number">100%</span>
+          <span class="stat-label">Compliance CVM</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-photo">
+      <div class="hero-photo-inner">
+        <img src="https://lp.elmomarketingdigital.com.br/wp-content/uploads/2026/04/G12.png" alt="Guilherme Fellet">
+        <div class="hero-photo-tag">
+          <div class="name">Guilherme Fellet</div>
+          <div class="title">Especialista em Negócios Digitais para o Mercado Financeiro</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CREDIBILITY STRIP -->
+<div class="cred-strip">
+  <span class="cred-label">Trabalhou com</span>
+  <span class="cred-name">Equipe Barsi</span>
+  <span class="cred-name">Charles Wicz</span>
+  <span class="cred-name">Rafael Seabra</span>
+  <span class="cred-name">Daniel Nigri</span>
+  <span class="cred-name">André Massaro</span>
+  <span class="cred-name">Vicente Guimarães</span>
+  <span class="cred-name">AGF</span>
+</div>
+
+<!-- PROBLEMA -->
+<section class="problema">
+  <div class="container">
+    <div class="problema-grid">
+      <div>
+        <span class="section-tag">O problema real</span>
+        <h2 class="section-title">Seu crescimento está travado.<br>Mas não e <em>culpa sua.</em></h2>
+        <div class="gold-rule"></div>
+        <p class="section-body">
+          Você tem anos de mercado, certificações, clientes que confiam em você.
+          O que falta não e conhecimento — e um <strong>sistema que transforma esse conhecimento em produto.</strong>
+          <br><br>
+          Os cursos de marketing digital que você tentou não funcionaram porque foram feitos para coaches, não para profissionais financeiros. Não falam de compliance, não entendem a regulação da CVM, não respeitam a linguagem do seu nicho.
+        </p>
+      </div>
+      <div class="problema-dores">
+        <div class="dor-item">
+          <span class="dor-num">01</span>
+          <p class="dor-text"><strong>Agenda sempre cheia, crescimento sempre igual.</strong> Para faturar 3x mais, você precisaria trabalhar 3x mais horas. Teto visivel e frustrante.</p>
+        </div>
+        <div class="dor-item">
+          <span class="dor-num">02</span>
+          <p class="dor-text"><strong>"Não tenho audiência para criar um produto."</strong> Essa crença te mantém preso no 1 a 1. Você cria o produto primeiro. A audiência vem depois.</p>
+        </div>
+        <div class="dor-item">
+          <span class="dor-num">03</span>
+          <p class="dor-text"><strong>"Vou parecer guru se comecar a me posicionar."</strong> O maior bloqueio de quem vem do mercado financeiro serio. Existe um caminho diferente.</p>
+        </div>
+        <div class="dor-item">
+          <span class="dor-num">04</span>
+          <p class="dor-text"><strong>Cursos genéricos que ignoram compliance e CVM.</strong> Métodologias de marketing que colapsam na primeira pergunta sobre regulação.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MECANISMO -->
+<section class="mecanismo">
+  <div class="container-wide">
+    <div style="text-align: center; max-width: 700px; margin: 0 auto;">
+      <span class="section-tag">O método</span>
+      <h2 class="section-title">Método de Alavancagem Digital</h2>
+      <p class="section-body" style="margin: 0 auto;">
+        5 agentes de IA configurados específicamente para o mercado financeiro. Eles fazem o trabalho pesado de posicionamento, estrutura e funil. <strong>Você cuida apenas do que já sabe: o conteúdo.</strong>
+      </p>
+    </div>
+
+    <div class="agentes-grid">
+      <div class="agente-item">
+        <span class="agente-num">01</span>
+        <div class="agente-nome">Robô Posicionamento Pro</div>
+        <p class="agente-desc">Define onde você se encaixa no mercado — sem consultor, sem achismo, com precisao cirurgica.</p>
+      </div>
+      <div class="agente-item">
+        <span class="agente-num">02</span>
+        <div class="agente-nome">Analista de Perfil PRO</div>
+        <p class="agente-desc">Mapeia seu cliente ideal com profundidade. Você para de falar para todo mundo e comeca a vender para alguem.</p>
+      </div>
+      <div class="agente-item">
+        <span class="agente-num">03</span>
+        <div class="agente-nome">Robô Arquiteto de Ativos</div>
+        <p class="agente-desc">Estrutura seu produto do zero: módulos, formato, entrega, precificação. Sai pronto para vender.</p>
+      </div>
+      <div class="agente-item">
+        <span class="agente-num">04</span>
+        <div class="agente-nome">Robô Criador de Mentorias</div>
+        <p class="agente-desc">Monta o escopo completo da sua mentoria financeira. Do tema ao contrato de entrega.</p>
+      </div>
+      <div class="agente-item">
+        <span class="agente-num">05</span>
+        <div class="agente-nome">Funil de Vendas Simples</div>
+        <p class="agente-desc">A estrutura de conversao que usamos nas campanhas com ROAS 10. Sem expertise em marketing.</p>
+      </div>
+    </div>
+
+    <div class="mecanismo-bottom">
+      <div>
+        <h3 class="section-title" style="font-size: 1.8rem;">O que você sai com o método:</h3>
+        <div class="gold-rule"></div>
+        <p class="section-body">
+          Um <strong>ativo digital completamente estruturado</strong> — produto definido, cliente mapeado, funil montado, precificação validada. Pronto para a primeira venda.
+          <br><br>
+          Tudo isso <strong>em 7 dias</strong>, sem precisar de audiência, sem abrir mão da sua credibilidade técnica e sem infringir nenhuma regra do mercado financeiro.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ENTREGAVEIS -->
+<section class="entregaveis">
+  <div class="container">
+    <span class="section-tag">O que você leva</span>
+    <h2 class="section-title">Tudo incluso em <em>R$67</em></h2>
+
+    <div class="entregaveis-list">
+      <div class="entregavel-item">
+        <div class="entregavel-index">01</div>
+        <div class="entregavel-content">
+          <h4>Protocolo GENIS-IA</h4>
+          <p>Os 5 agentes de IA configurados e prontos para usar, com instruções passo a passo para cada etapa da construção do seu ativo digital.</p>
+        </div>
+        <div class="entregavel-valor">
+          <span class="de">R$2.997</span>
+          <span class="val">incluso</span>
+        </div>
+      </div>
+      <div class="entregavel-item">
+        <div class="entregavel-index">02</div>
+        <div class="entregavel-content">
+          <h4>Grupo VIP com acesso direto</h4>
+          <p>Suporte, acompanhamento e comunidade de profissionais financeiros construindo seus ativos digitais. Você não percorre esse caminho sozinho.</p>
+        </div>
+        <div class="entregavel-valor">
+          <span class="de">R$497</span>
+          <span class="val">incluso</span>
+        </div>
+      </div>
+      <div class="entregavel-item">
+        <div class="entregavel-index">03</div>
+        <div class="entregavel-content">
+          <h4>Estrutura do Funil mais simples do mundo</h4>
+          <p>A arquitetura de conversao das campanhas com ROAS 10 — adaptada e documentada para o mercado financeiro. Sem necessidade de expertise em marketing.</p>
+        </div>
+        <div class="entregavel-valor">
+          <span class="de">R$997</span>
+          <span class="val">incluso</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="entregaveis-total">
+      <span class="total-label">Valor total dos entregaveis</span>
+      <div style="display: flex; align-items: baseline; gap: 16px;">
+        <span class="total-de">R$4.491</span>
+        <span class="total-por">R$67</span>
+      </div>
+    </div>
+
+    <div class="preco-ancoragem">
+      <p class="preco-original">De R$ 297,00</p>
+      <p class="preco-promo">R$67</p>
+      <p class="preco-parcelas">ou 12x de R$6,33 no cartao</p>
+    </div>
+
+    <div style="text-align: center; margin-top: 48px;">
+      <a href="https://pay.kiwify.com.br/bYulbzr" class="btn-primary" target="_blank" rel="noopener">
+        Garantir meu acesso por R$67
+      </a>
+    </div>
+
+    <div class="sessao-aviso">
+      <p><strong>Sessão Estratégica Express inclusa.</strong> Quem adquire o método tem acesso a uma sessão individual de 30 minutos com Guilherme Fellet para definir o posicionamento, o produto e os primeiros passos da implementação. Sem agenda aberta — será comunicado por e-mail após a compra.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PARA QUEM E -->
+<section class="para-quem">
+  <div class="container">
+    <span class="section-tag">Qualificacao</span>
+    <h2 class="section-title">Este método foi feito<br>para <em>você se:</em></h2>
+
+    <div class="check-grid">
+      <div class="check-item">
+        <div class="check-icon"></div>
+        <p class="check-text">Você e assessor, planejador, educador financeiro ou consultor e ainda depende do modelo <strong>1 a 1 para faturar</strong></p>
+      </div>
+      <div class="check-item">
+        <div class="check-icon"></div>
+        <p class="check-text">Sua agenda está sempre cheia, mas seu <strong>crescimento está travado</strong> — e você sente que o teto esta proximo</p>
+      </div>
+      <div class="check-item">
+        <div class="check-icon"></div>
+        <p class="check-text">Você já tentou marketing digital e <strong>não funcionou</strong> porque era genérico demais para o mercado financeiro</p>
+      </div>
+      <div class="check-item">
+        <div class="check-icon"></div>
+        <p class="check-text">Você quer monetizar seu conhecimento <strong>sem perder a seriedade</strong> que construiu ao longo dos anos</p>
+      </div>
+      <div class="check-item">
+        <div class="check-icon"></div>
+        <p class="check-text">Você tem medo de <strong>"virar guru"</strong> — e quer construir um negocio digital de verdade, sem abrir mão da etica</p>
+      </div>
+      <div class="check-item">
+        <div class="check-icon"></div>
+        <p class="check-text">Você ainda não tem audiência e acha que <strong>precisa ter antes</strong> de criar um produto digital</p>
+      </div>
+    </div>
+
+    <div style="margin-top: 48px;">
+      <h3 style="font-family: var(--serif); font-size: 1.4rem; font-weight: 400; color: rgba(255,255,255,0.4); margin-bottom: 16px;">Não e para você se:</h3>
+      <div class="nao-grid">
+        <div class="nao-item">
+          <div class="nao-icon">—</div>
+          <p class="nao-text">Você esta buscando formula magica que funciona sem dedicacao</p>
+        </div>
+        <div class="nao-item">
+          <div class="nao-icon">—</div>
+          <p class="nao-text">Você não e do mercado financeiro e não tem conhecimento técnico para oferecer</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROVA SOCIAL -->
+<section class="prova-social">
+  <div class="container-wide">
+    <div style="text-align: center; max-width: 620px; margin: 0 auto;">
+      <span class="section-tag">Resultados reais</span>
+      <h2 class="section-title">O que acontece depois<br>de <em>aplicar o método:</em></h2>
+    </div>
+
+    <div class="resultados-grid">
+      <div class="resultado-card">
+        <div class="resultado-card-header">
+          <div class="resultado-avatar">M</div>
+          <div>
+            <div class="resultado-nome">Maria Clara</div>
+            <div class="resultado-cargo">Planejadora Financeira</div>
+          </div>
+        </div>
+        <div>
+          <div class="resultado-valor">R$4.000+</div>
+          <div class="resultado-valor-label">Primeira venda independente</div>
+        </div>
+        <p class="resultado-depo">"Ontem a noite fiz uma reuniao com uma Lead e consegui fechar a <strong>primeira venda do meu proprio produto</strong>, sem parceria com a empresa que eu trabalhava. Diretamente meu mesmo. Um planejamento financeiro completo."</p>
+        <span class="resultado-tag">Primeira venda propria</span>
+        <span class="passou-sessao">Passou pela Sessão Estratégica Express — clareza de posicionamento antes de fechar a primeira venda.</span>
+      </div>
+
+      <div class="resultado-card">
+        <div class="resultado-card-header">
+          <div class="resultado-avatar">T</div>
+          <div>
+            <div class="resultado-nome">Tiago CFP</div>
+            <div class="resultado-cargo">Consultor Financeiro</div>
+          </div>
+        </div>
+        <div>
+          <div class="resultado-valor">R$4.317</div>
+          <div class="resultado-valor-label">Venda realizada — Greenn</div>
+        </div>
+        <p class="resultado-depo">"<strong>Primeira venda realizada no nosso novo modelo.</strong> 6 meses, 10 aulas. Método TRP — Transformando Renda em Patrimônio."</p>
+        <span class="resultado-tag">Novo modelo de negocio</span>
+        <span class="passou-sessao">Passou pela Sessão Estratégica Express — estruturou o produto e a oferta antes de lançar o novo modelo.</span>
+      </div>
+
+      <div class="resultado-card">
+        <div class="resultado-card-header">
+          <div class="resultado-avatar">G</div>
+          <div>
+            <div class="resultado-nome">Aluno do Grupo VIP</div>
+            <div class="resultado-cargo">Educador Financeiro</div>
+          </div>
+        </div>
+        <div>
+          <div class="resultado-valor">R$6.400</div>
+          <div class="resultado-valor-label">Programa anual fechado</div>
+        </div>
+        <p class="resultado-depo">"Tive uma reuniao hoje, fechei <strong>mais uma venda. R$6.400. Programa anual.</strong>"</p>
+        <span class="resultado-tag">Resultado recorrente</span>
+        <span class="passou-sessao">Passou pela Sessão Estratégica Express — definiu escopo e precificação do programa antes de fechar.</span>
+      </div>
+    </div>
+
+    <!-- GALERIA DE PRINTS DOS ALUNOS -->
+    <div style="margin-top: 1px;">
+      <div style="text-align: center; margin-bottom: 32px; margin-top: 48px;">
+        <span class="section-tag">Prints reais do grupo</span>
+        <h3 class="section-title" style="font-size: 1.8rem;">Mensagens que chegam <em>depois do método:</em></h3>
+      </div>
+      <div class="prints-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;">
+        <div style="border: 1px solid var(--border); overflow: hidden; background: var(--preto-2);">
+          <img src="https://lp.elmomarketingdigital.com.br/wp-content/uploads/2025/06/IMG_0409-1-875x1024.jpg" alt="Resultado aluno — primeira venda no perpétuo" style="width: 100%; display: block; object-fit: cover;">
+        </div>
+        <div style="border: 1px solid var(--border); overflow: hidden; background: var(--preto-2);">
+          <img src="https://lp.elmomarketingdigital.com.br/wp-content/uploads/2025/06/IMG_0408-1-986x1024.jpg" alt="Resultado aluno — primeira venda com nova apresentação" style="width: 100%; display: block; object-fit: cover;">
+        </div>
+        <div style="border: 1px solid var(--border); overflow: hidden; background: var(--preto-2);">
+          <img src="https://lp.elmomarketingdigital.com.br/wp-content/uploads/2025/06/IMG_0406-1024x832.jpg" alt="Resultado aluno — fiz a venda" style="width: 100%; display: block; object-fit: cover;">
+        </div>
+        <div style="border: 1px solid var(--border); overflow: hidden; background: var(--preto-2);">
+          <img src="https://lp.elmomarketingdigital.com.br/wp-content/uploads/2025/06/IMG_0412-1-1024x788.jpg" alt="Resultado aluno" style="width: 100%; display: block; object-fit: cover;">
+        </div>
+        <div style="border: 1px solid var(--border); overflow: hidden; background: var(--preto-2);">
+          <img src="https://lp.elmomarketingdigital.com.br/wp-content/uploads/2025/06/IMG_0410-684x1024.jpg" alt="Resultado aluno" style="width: 100%; display: block; object-fit: cover;">
+        </div>
+        <div style="border: 1px solid var(--border); overflow: hidden; background: var(--preto-2);">
+          <img src="https://lp.elmomarketingdigital.com.br/wp-content/uploads/2025/06/IMG_0407-2-770x1024.jpg" alt="Resultado aluno" style="width: 100%; display: block; object-fit: cover;">
+        </div>
+      </div>
+    </div>
+
+    <!-- GRANDES PLAYERS COM FOTOS -->
+    <div class="credenciais-section">
+      <div style="text-align: center;">
+        <span class="section-tag">Credenciais</span>
+        <h3 class="section-title" style="font-size: 1.8rem;">Quem confiou neste trabalho:</h3>
+      </div>
+
+      <!-- Foto no palco -->
+      <div style="border: 1px solid var(--border); overflow: hidden; margin-top: 40px; position: relative;">
+        <img src="https://lp.elmomarketingdigital.com.br/wp-content/uploads/2026/04/04-scaled.png" alt="Guilherme Fellet no palco com grandes players"
+             style="width: 100%; height: 420px; object-fit: cover; object-position: center top; display: block; filter: brightness(0.82) contrast(1.05);">
+        <div style="position: absolute; bottom: 0; left: 0; right: 0; height: 60%; background: linear-gradient(to top, rgba(10,10,10,0.95), transparent); pointer-events: none;"></div>
+        <div style="position: absolute; bottom: 32px; left: 40px; right: 40px; text-align: center;">
+          <div style="font-size: 10px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--dourado); margin-bottom: 10px;">No palco com as maiores referências do mercado</div>
+          <div style="font-family: var(--serif); font-size: 1.3rem; color: var(--branco); line-height: 1.4;">Guilherme Fellet ao lado dos maiores nomes do mercado financeiro digital no Brasil.</div>
+        </div>
+      </div>
+
+      <!-- Fotos circulares dos players -->
+      <div class="players-circles" style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 32px; margin-top: 48px; padding: 0 20px;">
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 12px;">
+          <div style="width: 80px; height: 80px; border-radius: 50%; overflow: hidden; border: 2px solid var(--border);">
+            <img src="https://lp.elmomarketingdigital.com.br/wp-content/uploads/2025/05/Ellipse-11-1.png" alt="Daniel Nigri" style="width: 100%; height: 100%; object-fit: cover;">
+          </div>
+          <span style="font-size: 11px; font-weight: 500; color: var(--cinza-light); text-align: center;">Daniel Nigri</span>
+        </div>
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 12px;">
+          <div style="width: 80px; height: 80px; border-radius: 50%; overflow: hidden; border: 2px solid var(--border);">
+            <img src="https://lp.elmomarketingdigital.com.br/wp-content/uploads/2025/05/Ellipse-11-3.png" alt="Charles Wicz" style="width: 100%; height: 100%; object-fit: cover;">
+          </div>
+          <span style="font-size: 11px; font-weight: 500; color: var(--cinza-light); text-align: center;">Charles Wicz</span>
+        </div>
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 12px;">
+          <div style="width: 80px; height: 80px; border-radius: 50%; overflow: hidden; border: 2px solid var(--border);">
+            <img src="https://lp.elmomarketingdigital.com.br/wp-content/uploads/2025/05/Ellipse-11-4.png" alt="Rafael Seabra" style="width: 100%; height: 100%; object-fit: cover;">
+          </div>
+          <span style="font-size: 11px; font-weight: 500; color: var(--cinza-light); text-align: center;">Rafael Seabra</span>
+        </div>
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 12px;">
+          <div style="width: 80px; height: 80px; border-radius: 50%; overflow: hidden; border: 2px solid var(--border);">
+            <img src="https://lp.elmomarketingdigital.com.br/wp-content/uploads/2025/05/Ellipse-11.png" alt="André Massaro" style="width: 100%; height: 100%; object-fit: cover;">
+          </div>
+          <span style="font-size: 11px; font-weight: 500; color: var(--cinza-light); text-align: center;">André Massaro</span>
+        </div>
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 12px;">
+          <div style="width: 80px; height: 80px; border-radius: 50%; overflow: hidden; border: 2px solid var(--border);">
+            <img src="https://lp.elmomarketingdigital.com.br/wp-content/uploads/2025/05/Ellipse-11-5.png" alt="Vicente Guimarães" style="width: 100%; height: 100%; object-fit: cover;">
+          </div>
+          <span style="font-size: 11px; font-weight: 500; color: var(--cinza-light); text-align: center;">Vicente Guimarães</span>
+        </div>
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 12px;">
+          <div style="width: 80px; height: 80px; border-radius: 50%; overflow: hidden; border: 2px solid var(--border);">
+            <img src="https://lp.elmomarketingdigital.com.br/wp-content/uploads/2025/05/Ellipse-11-2.png" alt="AGF" style="width: 100%; height: 100%; object-fit: cover;">
+          </div>
+          <span style="font-size: 11px; font-weight: 500; color: var(--cinza-light); text-align: center;">AGF</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BIO -->
+<section class="bio">
+  <div class="container-wide">
+    <div class="bio-grid">
+      <div class="bio-photo">
+        <img src="https://lp.elmomarketingdigital.com.br/wp-content/uploads/2026/04/G18.png" alt="Guilherme Fellet">
+      </div>
+      <div class="bio-content">
+        <span class="section-tag">Quem é Guilherme Fellet</span>
+        <h2 class="section-title">O especialista em negócios digitais <em>para o mercado financeiro.</em></h2>
+        <div class="gold-rule"></div>
+        <p class="section-body">
+          Guilherme Fellet construiu sua carreira no cruzamento entre o mercado financeiro e o mundo digital. Trabalhou lado a lado com as maiores referencias do setor no Brasil — da equipe de Luiz Barsi a Rafael Seabra, de Daniel Nigri a Charles Wicz.
+          <br><br>
+          O que aprendi com cada um deles ficou dentro do Método de Alavancagem Digital — um protocolo que qualquer profissional financeiro pode usar para criar seu primeiro ativo digital <strong>sem abrir mão da seriedade técnica e sem infringir nenhuma regra do setor.</strong>
+        </p>
+        <div class="bio-conquistas">
+          <div class="conquista-item">
+            <span class="conquista-num">ROAS 10</span>
+            <span class="conquista-label">Resultado das campanhas</span>
+          </div>
+          <div class="conquista-item">
+            <span class="conquista-num">7 dias</span>
+            <span class="conquista-label">Para ter o ativo pronto</span>
+          </div>
+          <div class="conquista-item">
+            <span class="conquista-num">5</span>
+            <span class="conquista-label">Agentes de IA configurados</span>
+          </div>
+          <div class="conquista-item">
+            <span class="conquista-num">R$67</span>
+            <span class="conquista-label">Investimento de entrada</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GARANTIA -->
+<section class="garantia">
+  <div class="container">
+    <div class="garantia-box">
+      <div class="garantia-icon">
+        <span class="dias">7</span>
+        <span class="label">Dias</span>
+      </div>
+      <div>
+        <span class="section-tag">Sem risco</span>
+        <h2 class="section-title" style="font-size: 2rem; margin-bottom: 16px;">Garantia incondicional de 7 dias</h2>
+        <p class="section-body">
+          Se em 7 dias você não estiver satisfeito com o que recebeu, basta pedir o reembolso. Devolvo 100% do seu dinheiro — sem perguntas, sem burocracia, sem processo.
+          <br><br>
+          Com <strong>R$67 em jogo e 7 dias para testar</strong>, o único risco real e não tentar.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRECO -->
+<section class="preco-section">
+  <div class="container">
+    <div style="text-align: center; margin-bottom: 48px;">
+      <span class="section-tag">Investimento</span>
+      <h2 class="section-title">Um ativo digital. Sete dias. <em>R$67.</em></h2>
+    </div>
+    <div class="preco-box">
+      <p class="preco-original">De R$ 297,00</p>
+      <p class="preco-promo">R$67</p>
+      <p class="preco-parcelas">ou 12x de R$6,33 no cartao</p>
+      <div class="preco-cta-wrap">
+        <a href="https://pay.kiwify.com.br/bYulbzr" class="btn-primary" target="_blank" rel="noopener">
+          Garantir meu acesso agora
+        </a>
+        <span class="preco-seguro">Pagamento seguro via Kiwify &nbsp;·&nbsp; Acesso imediato &nbsp;·&nbsp; Garantia de 7 dias</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq">
+  <div class="container">
+    <span class="section-tag">Dúvidas frequentes</span>
+    <h2 class="section-title">Perguntas que<br><em>você pode ter agora:</em></h2>
+
+    <div class="faq-list">
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          <span class="faq-question-text">Preciso ter audiência para fazer isso funcionar?</span>
+          <span class="faq-toggle">+</span>
+        </button>
+        <div class="faq-answer">
+          Não. O método foi construido exatamente para quem ainda não tem audiência. <strong>Você cria o produto primeiro — a audiência vem depois</strong>, com o produto pronto e o posicionamento definido. A crença de que "preciso de seguidores antes de criar um produto" é o maior mito do mercado digital.
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          <span class="faq-question-text">Funciona para o meu sub-nicho financeiro específico?</span>
+          <span class="faq-toggle">+</span>
+        </button>
+        <div class="faq-answer">
+          Sim. Os agentes de IA foram configurados para se adaptar a qualquer especialidade dentro do mercado financeiro — assessoria de investimentos, planejamento financeiro, educação financeira comportamental, analise técnica, financas para nichos específicos (medicos, casais, empresarios). <strong>O método e modular e adaptavel.</strong>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          <span class="faq-question-text">Vou precisar saber de tecnologia ou programação?</span>
+          <span class="faq-toggle">+</span>
+        </button>
+        <div class="faq-answer">
+          Não. Você recebe os agentes prontos e configurados. <strong>É só usar</strong> — sem instalar nada, sem saber programar, sem curva de aprendizado técnica. Se você usa WhatsApp, você consegue usar o protocolo.
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          <span class="faq-question-text">E se eu já tentei marketing digital e não funcionou?</span>
+          <span class="faq-toggle">+</span>
+        </button>
+        <div class="faq-answer">
+          Esse é exatamente o perfil de quem mais se beneficia do método. Os cursos genéricos falham porque <strong>não foram feitos para profissionais financeiros</strong> — ignoram compliance, não falam a língua do setor, usam estratégias de posicionamento que conflitam com as restrições da CVM e do BACEN. Este foi.
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          <span class="faq-question-text">Quanto tempo vou precisar dedicar?</span>
+          <span class="faq-toggle">+</span>
+        </button>
+        <div class="faq-answer">
+          O protocolo foi desenhado para ser concluido em 7 dias, com sessoes de trabalho focadas e objetivas. <strong>Sem enrolação, sem módulos desnecessarios.</strong> Cada agente tem uma entrega específica e clara.
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          <span class="faq-question-text">Posso fazer dentro das regras da CVM e do BACEN?</span>
+          <span class="faq-toggle">+</span>
+        </button>
+        <div class="faq-answer">
+          Sim. O método foi construido com as restrições regulatorias do mercado financeiro em mente. Você aprende como criar posicionamento, produto e conteúdo de marketing <strong>dentro das regras do setor</strong> — sem prometer retornos, sem infringir compliance, sem comprometer sua credencial.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section class="cta-final" style="padding: 100px 60px; background: var(--preto-2); border-top: 1px solid var(--border-subtle);">
+  <div class="container-wide">
+    <div class="cta-final-grid">
+      <div class="cta-final-photo">
+        <img src="https://lp.elmomarketingdigital.com.br/wp-content/uploads/2026/04/08-scaled.png" alt="Guilherme Fellet no palco">
+      </div>
+      <div>
+        <span class="section-tag">Decisao final</span>
+        <h2 class="section-title">Você já tem o conhecimento.<br>Falta o sistema para <em>transformar isso em ativo.</em></h2>
+        <div class="gold-rule"></div>
+        <p class="section-body" style="margin-bottom: 40px;">
+          Cada mes que passa sem um ativo digital rodando é renda que você deixa na mesa.
+          O mercado digital para profissionais financeiros está em expansão — e a janela competitiva <strong>ainda está aberta.</strong>
+        </p>
+        <div style="display: flex; flex-direction: column; align-items: flex-start; gap: 12px;">
+          <a href="https://pay.kiwify.com.br/bYulbzr" class="btn-primary" target="_blank" rel="noopener">
+            Garantir meu acesso por R$67
+          </a>
+          <span class="hero-price-note"><s>De R$297</s> &nbsp;—&nbsp; <strong>Apenas R$67</strong> &nbsp;·&nbsp; Garantia de 7 dias &nbsp;·&nbsp; Acesso imediato</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p class="footer-text">
+    Guilherme Fellet &nbsp;·&nbsp; Elmo Marketing Digital<br>
+    Este produto é vendido pela plataforma Kiwify. Pagamento 100% seguro.<br>
+    Todos os direitos reservados.
+  </p>
+</footer>
+
+<script>
+function toggleFaq(btn) {
+  var item = btn.parentElement;
+  var isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(function(el) {
+    el.classList.remove('open');
+  });
+  if (!isOpen) item.classList.add('open');
+}
+</script>
+
+</body>
+</html>
