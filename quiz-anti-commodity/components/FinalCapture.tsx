@@ -14,12 +14,7 @@ type Props = {
   }) => void;
 };
 
-const INVESTMENT_OPTIONS = [
-  "Até R$ 5 mil",
-  "Até R$ 10 mil",
-  "Até R$ 25 mil",
-  "Sem possibilidade de investir hoje",
-];
+const INVESTMENT_OPTIONS = ["Sim", "Não"];
 
 function isValidEmail(value: string): boolean {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
@@ -137,7 +132,7 @@ export default function FinalCapture({ name, submitting, onSubmit }: Props) {
 
           <div>
             <p className="field-label">
-              Se eu te mostrasse um plano prático para aumentar sua autoridade e seu faturamento nos próximos meses, você toparia conversar sobre um investimento de até:
+              Você estaria disposto a investir em um plano prático para aumentar sua autoridade e seu faturamento nos próximos meses?
             </p>
             <div className="mt-3 space-y-3">
               {INVESTMENT_OPTIONS.map((option) => {
