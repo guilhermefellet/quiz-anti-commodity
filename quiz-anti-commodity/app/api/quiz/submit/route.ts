@@ -204,13 +204,9 @@ export async function POST(request: Request) {
     all.push(record);
     await writeAll(all);
   } catch (error) {
-    return NextResponse.json(
-      {
-        ok: false,
-        error: "persistence_failed",
-        detail: error instanceof Error ? error.message : "unknown",
-      },
-      { status: 500 },
+    console.log(
+      "[submit] persistence skipped",
+      error instanceof Error ? error.message : "unknown",
     );
   }
 
