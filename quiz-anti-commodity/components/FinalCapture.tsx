@@ -178,6 +178,18 @@ export default function FinalCapture({ name, submitting, onSubmit }: Props) {
             <p className="text-sm font-medium text-rose-600">{errors.consent}</p>
           )}
 
+
+          <div className="rounded-2xl border border-brand-line bg-white px-4 py-4 text-sm leading-relaxed text-brand-slate">
+            <p className="font-semibold text-brand-ink">Agora, você pode conversar com a Ana.</p>
+            <p className="mt-2">
+              A Ana faz parte da equipe Lucro Recorrente e é especialista em ajudar
+              educadores, consultores e planejadores financeiros a transformar
+              autoridade em um plano prático de crescimento. Ela vai te ajudar a
+              entender os próximos passos para aplicar esse diagnóstico no seu
+              momento atual.
+            </p>
+          </div>
+
           <button type="submit" disabled={submitting} className="btn-primary">
             {submitting ? "Liberando..." : "Liberar meu resultado"}
           </button>
