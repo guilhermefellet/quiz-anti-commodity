@@ -118,9 +118,10 @@ export async function POST(request: Request) {
   const name = (body.name ?? "").trim();
   const email = (body.email ?? "").trim();
   const whatsapp = (body.whatsapp ?? "").trim();
+  const investmentCapacity = (body.investmentCapacity ?? "").trim();
   const answers = Array.isArray(body.answers) ? body.answers : [];
 
-  if (!name || !email || !whatsapp) {
+  if (!name || !email || !whatsapp || !investmentCapacity) {
     return NextResponse.json(
       { ok: false, error: "missing_fields" },
       { status: 400 },
@@ -182,6 +183,7 @@ export async function POST(request: Request) {
     profession: (body.profession ?? "").trim(),
     email,
     whatsapp,
+    investmentCapacity,
     totalScore: body.totalScore ?? 0,
     maxScore: MAX_SCORE,
     resultTitle,

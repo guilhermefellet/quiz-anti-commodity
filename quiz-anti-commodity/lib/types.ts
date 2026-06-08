@@ -26,6 +26,7 @@ export type SubmitRequestBody = {
   profession?: string;
   email?: string;
   whatsapp?: string;
+  investmentCapacity?: string;
   answers?: number[];
   totalScore?: number;
   resultTitle?: string;
@@ -48,6 +49,7 @@ export type QuizSubmissionRecord = {
   profession: string;
   email: string;
   whatsapp: string;
+  investmentCapacity: string;
   totalScore: number;
   maxScore: number;
   resultTitle: string;

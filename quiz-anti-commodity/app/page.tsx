@@ -15,7 +15,12 @@ import { QUIZ_QUESTIONS } from "@/lib/quiz-data";
 type Step = "welcome" | "initial" | "questions" | "final" | "result";
 
 type InitialData = { name: string; profession: string };
-type FinalData = { email: string; whatsapp: string; consent: boolean };
+type FinalData = {
+  email: string;
+  whatsapp: string;
+  investmentCapacity: string;
+  consent: boolean;
+};
 
 const STORAGE_KEY = "qac.session";
 
@@ -118,6 +123,7 @@ export default function HomePage() {
         profession: initial.profession,
         email: data.email,
         whatsapp: data.whatsapp,
+        investmentCapacity: data.investmentCapacity,
         answers,
         totalScore: score,
         resultTitle: result.key,

@@ -6,8 +6,20 @@ import BrandHeader from "./BrandHeader";
 type Props = {
   name: string;
   submitting: boolean;
-  onSubmit: (data: { email: string; whatsapp: string; consent: boolean }) => void;
+  onSubmit: (data: {
+    email: string;
+    whatsapp: string;
+    investmentCapacity: string;
+    consent: boolean;
+  }) => void;
 };
+
+const INVESTMENT_OPTIONS = [
+  "Até R$ 5 mil",
+  "Até R$ 10 mil",
+  "Até R$ 25 mil",
+  "Sem possibilidade de investir hoje",
+];
 
 function isValidEmail(value: string): boolean {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
@@ -21,10 +33,12 @@ function isValidWhatsapp(value: string): boolean {
 export default function FinalCapture({ name, submitting, onSubmit }: Props) {
   const [email, setEmail] = useState("");
   const [whatsapp, setWhatsapp] = useState("");
+  const [investmentCapacity, setInvestmentCapacity] = useState("");
   const [consent, setConsent] = useState(false);
   const [errors, setErrors] = useState<{
     email?: string;
     whatsapp?: string;
+    investmentCapacity?: string;
     consent?: string;
   }>({});
 
@@ -37,6 +51,9 @@ export default function FinalCapture({ name, submitting, onSubmit }: Props) {
     if (!isValidWhatsapp(whatsapp.trim())) {
       next.whatsapp = "Informe WhatsApp com DDD (10 ou 11 dígitos).";
     }
+    if (!investmentCapacity) {
+      next.investmentCapacity = "Selecione uma opção de investimento.";
+    }
     if (!consent) {
       next.consent = "Você precisa confirmar para receber seu resultado.";
     }
@@ -46,6 +63,7 @@ export default function FinalCapture({ name, submitting, onSubmit }: Props) {
     onSubmit({
       email: email.trim(),
       whatsapp: whatsapp.replace(/\D/g, ""),
+      investmentCapacity,
       consent,
     });
   }
@@ -113,6 +131,38 @@ export default function FinalCapture({ name, submitting, onSubmit }: Props) {
                 className="mt-2 text-sm font-medium text-rose-600"
               >
                 {errors.whatsapp}
+              </p>
+            )}
+          </div>
+
+          <div>
+            <p className="field-label">
+              Se eu te mostrasse um plano prático para aumentar sua autoridade e seu faturamento nos próximos meses, você toparia conversar sobre um investimento de até:
+            </p>
+            <div className="mt-3 space-y-3">
+              {INVESTMENT_OPTIONS.map((option) => {
+                const active = investmentCapacity === option;
+                return (
+                  <button
+                    key={option}
+                    type="button"
+                    onClick={() => setInvestmentCapacity(option)}
+                    className={[
+                      "w-full rounded-2xl border px-4 py-4 text-left text-sm font-medium leading-snug transition-all duration-200",
+                      active
+                        ? "border-brand-accent bg-brand-ink text-white shadow-card"
+                        : "border-brand-line bg-white text-brand-ink hover:border-brand-accent hover:bg-brand-soft",
+                    ].join(" ")}
+                    aria-pressed={active}
+                  >
+                    {option}
+                  </button>
+                );
+              })}
+            </div>
+            {errors.investmentCapacity && (
+              <p className="mt-2 text-sm font-medium text-rose-600">
+                {errors.investmentCapacity}
               </p>
             )}
           </div>
