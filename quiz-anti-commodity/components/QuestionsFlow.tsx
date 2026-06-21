@@ -21,12 +21,19 @@ export default function QuestionsFlow({ name, onComplete }: Props) {
   const isLast = index === total - 1;
 
   useEffect(() => {
-    setSelected(null);
+    const stored = answers[index];
+    setSelected(stored && stored > 0 ? stored : null);
     setAnimKey((value) => value + 1);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [index]);
 
   function handleSelect(score: number) {
     setSelected(score);
+  }
+
+  function handleBack() {
+    if (index === 0) return;
+    setIndex((value) => value - 1);
   }
 
   function handleNext() {
@@ -49,11 +56,11 @@ export default function QuestionsFlow({ name, onComplete }: Props) {
 
       <ProgressBar current={index + 1} total={total} />
 
-      <div key={animKey} className="card-base fade-in sm:p-8">
-        <p className="text-xs font-semibold uppercase tracking-wide text-brand-accent">
+      <div key={animKey} className="card-base fade-in sm:p-10">
+        <p className="text-[11px] font-semibold uppercase tracking-kicker text-brand-accent">
           {name ? `${name}, vamos lá` : "Diagnóstico"}
         </p>
-        <h2 className="mt-2 text-xl font-semibold leading-snug text-brand-ink sm:text-2xl">
+        <h2 className="mt-3 font-serif text-2xl font-semibold leading-snug text-night-ink sm:text-3xl">
           {question.title}
         </h2>
 
@@ -68,8 +75,8 @@ export default function QuestionsFlow({ name, onComplete }: Props) {
                 className={[
                   "w-full rounded-2xl border px-4 py-4 text-left text-sm font-medium leading-snug transition-all duration-200",
                   active
-                    ? "border-brand-accent bg-brand-ink text-white shadow-card"
-                    : "border-brand-line bg-white text-brand-ink hover:border-brand-accent hover:bg-brand-soft",
+                    ? "border-brand-accent bg-night-raised text-night-ink ring-1 ring-brand-accent/50"
+                    : "border-night-line bg-night-raised text-night-soft hover:border-brand-accent hover:text-night-ink",
                 ].join(" ")}
                 aria-pressed={active}
               >
@@ -79,7 +86,11 @@ export default function QuestionsFlow({ name, onComplete }: Props) {
           })}
         </div>
 
-        <div className="mt-7">
+        <p className="mt-6 text-center text-xs text-night-mute">
+          Toque na sua resposta para continuar.
+        </p>
+
+        <div className="mt-6">
           <button
             type="button"
             onClick={handleNext}
@@ -89,6 +100,18 @@ export default function QuestionsFlow({ name, onComplete }: Props) {
             {isLast ? "Ver meu resultado" : "Próxima"}
           </button>
         </div>
+
+        {index > 0 && (
+          <div className="mt-4">
+            <button
+              type="button"
+              onClick={handleBack}
+              className="text-sm font-medium text-night-mute transition-colors hover:text-night-ink"
+            >
+              ← Voltar
+            </button>
+          </div>
+        )}
       </div>
     </section>
   );

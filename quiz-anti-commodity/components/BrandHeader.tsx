@@ -4,13 +4,13 @@ export default function BrandHeader() {
       <div className="flex items-center gap-3">
         <div
           aria-hidden
-          className="h-8 w-8 rounded-2xl bg-brand-ink"
+          className="h-8 w-8 rounded-2xl"
           style={{
             backgroundImage:
-              "linear-gradient(135deg, #051933 0%, #0b2a55 60%, #FF6600 140%)",
+              "linear-gradient(135deg, #172145 0%, #26305A 55%, #FF6600 140%)",
           }}
         />
-        <p className="text-sm font-semibold tracking-tight text-brand-ink">
+        <p className="text-sm font-semibold tracking-tight text-night-ink">
           Termômetro Anti-Commodity
         </p>
       </div>

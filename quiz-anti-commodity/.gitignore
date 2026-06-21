@@ -8,3 +8,6 @@ dist
 .DS_Store
 *.log
 data/submissions.json
+data/copy/
+data/research/
+tsconfig.tsbuildinfo

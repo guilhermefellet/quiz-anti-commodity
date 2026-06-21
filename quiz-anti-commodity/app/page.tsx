@@ -5,6 +5,7 @@ import WelcomeScreen from "@/components/WelcomeScreen";
 import InitialCapture from "@/components/InitialCapture";
 import QuestionsFlow from "@/components/QuestionsFlow";
 import FinalCapture from "@/components/FinalCapture";
+import Analyzing from "@/components/Analyzing";
 import ResultScreen from "@/components/ResultScreen";
 import Footer from "@/components/Footer";
 import { captureAndPersistUtms, type UtmPayload } from "@/lib/utm";
@@ -12,7 +13,15 @@ import { trackEvent } from "@/lib/analytics";
 import { computeScore, getMainBottleneck, getResultByScore } from "@/lib/scoring";
 import { QUIZ_QUESTIONS } from "@/lib/quiz-data";
 
-type Step = "welcome" | "initial" | "questions" | "final" | "result";
+type Step =
+  | "welcome"
+  | "initial"
+  | "questions"
+  | "final"
+  | "analyzing"
+  | "result";
+
+const ANALYZING_MIN_MS = 4400;
 
 type InitialData = { name: string; profession: string };
 type FinalData = {
@@ -118,6 +127,7 @@ export default function HomePage() {
     async (data: FinalData) => {
       if (!result || !bottleneck) return;
       setSubmitting(true);
+      setStep("analyzing");
       const payload = {
         name: initial.name,
         profession: initial.profession,
@@ -137,11 +147,14 @@ export default function HomePage() {
       };
 
       try {
-        await fetch("/api/quiz/submit", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload),
-        });
+        await Promise.all([
+          fetch("/api/quiz/submit", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+          }),
+          new Promise((resolve) => setTimeout(resolve, ANALYZING_MIN_MS)),
+        ]);
       } catch {
         // mantém o fluxo mesmo se a persistência falhar; resultado precisa aparecer.
       } finally {
@@ -184,6 +197,8 @@ export default function HomePage() {
             onSubmit={handleFinalSubmit}
           />
         )}
+
+        {step === "analyzing" && <Analyzing name={initial.name} />}
 
         {step === "result" && result && bottleneck && (
           <ResultScreen

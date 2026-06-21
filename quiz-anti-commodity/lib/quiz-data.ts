@@ -207,7 +207,7 @@ export const RESULT_PROFILES: ResultProfile[] = [
       "Sua comunicação ainda não cria diferença percebida",
     ],
     nextStep:
-      "Organizar público, promessa e oferta antes de pensar em postar mais ou investir em tráfego.",
+      "Antes de postar mais ou investir em tráfego, definir um nicho específico dentro do mercado financeiro e empacotar uma oferta que respeite o compliance e gere previsibilidade.",
   },
   {
     key: "Especialista Genérico",
@@ -223,7 +223,7 @@ export const RESULT_PROFILES: ResultProfile[] = [
       "Sua oferta precisa ganhar forma comercial mais clara",
     ],
     nextStep:
-      "Construir uma tese de posicionamento e empacotar sua entrega para que o prospect entenda por que você é a escolha certa.",
+      "Construir uma tese de posicionamento própria e empacotar sua entrega num ativo digital que comece a romper o teto do 1 a 1.",
   },
   {
     key: "Autoridade Subaproveitada",
@@ -239,7 +239,7 @@ export const RESULT_PROFILES: ResultProfile[] = [
       "Sua oferta pode estar boa, mas não suficientemente orientada à conversão",
     ],
     nextStep:
-      "Conectar presença digital, oferta e processo comercial em uma sequência simples: atrair, qualificar, conversar e fechar.",
+      "Conectar presença, oferta e processo comercial num sistema único que gere conversas qualificadas com previsibilidade, sem depender de indicação.",
   },
   {
     key: "Anti-Commodity em Construção",
@@ -255,6 +255,6 @@ export const RESULT_PROFILES: ResultProfile[] = [
       "O próximo passo é consolidar um processo replicável de captação e conversão",
     ],
     nextStep:
-      "Refinar a promessa, validar o funil e medir o que precisa ser repetido para gerar conversas qualificadas com consistência.",
+      "Transformar os ativos que você já tem num sistema de recorrência que roda sem depender da sua agenda.",
   },
 ];

@@ -67,13 +67,13 @@ export default function FinalCapture({ name, submitting, onSubmit }: Props) {
     <section className="fade-in">
       <BrandHeader />
 
-      <div className="card-base sm:p-8">
-        <h2 className="text-2xl font-semibold leading-tight text-brand-ink sm:text-3xl">
+      <div className="card-base sm:p-10">
+        <h2 className="font-serif text-2xl font-semibold leading-tight text-night-ink sm:text-3xl">
           {name ? `${name}, seu resultado está pronto.` : "Seu resultado está pronto."}{" "}
           Para liberar seu plano inicial, preencha seus contatos.
         </h2>
-        <p className="mt-3 text-sm leading-relaxed text-brand-slate">
-          Assim você também consegue continuar a conversa com a Anna Mattei pelo
+        <p className="mt-3 text-sm leading-relaxed text-night-soft">
+          Assim você também consegue continuar a conversa com a Ana pelo
           WhatsApp, se fizer sentido para o seu momento.
         </p>
 
@@ -97,7 +97,7 @@ export default function FinalCapture({ name, submitting, onSubmit }: Props) {
             {errors.email && (
               <p
                 id="email-error"
-                className="mt-2 text-sm font-medium text-rose-600"
+                className="mt-2 text-sm font-medium text-tone-danger"
               >
                 {errors.email}
               </p>
@@ -123,7 +123,7 @@ export default function FinalCapture({ name, submitting, onSubmit }: Props) {
             {errors.whatsapp && (
               <p
                 id="whatsapp-error"
-                className="mt-2 text-sm font-medium text-rose-600"
+                className="mt-2 text-sm font-medium text-tone-danger"
               >
                 {errors.whatsapp}
               </p>
@@ -145,8 +145,8 @@ export default function FinalCapture({ name, submitting, onSubmit }: Props) {
                     className={[
                       "w-full rounded-2xl border px-4 py-4 text-left text-sm font-medium leading-snug transition-all duration-200",
                       active
-                        ? "border-brand-accent bg-brand-ink text-white shadow-card"
-                        : "border-brand-line bg-white text-brand-ink hover:border-brand-accent hover:bg-brand-soft",
+                        ? "border-brand-accent bg-night-raised text-night-ink ring-1 ring-brand-accent/50"
+                        : "border-night-line bg-night-raised text-night-soft hover:border-brand-accent hover:text-night-ink",
                     ].join(" ")}
                     aria-pressed={active}
                   >
@@ -156,16 +156,16 @@ export default function FinalCapture({ name, submitting, onSubmit }: Props) {
               })}
             </div>
             {errors.investmentCapacity && (
-              <p className="mt-2 text-sm font-medium text-rose-600">
+              <p className="mt-2 text-sm font-medium text-tone-danger">
                 {errors.investmentCapacity}
               </p>
             )}
           </div>
 
-          <label className="flex items-start gap-3 rounded-2xl bg-brand-soft px-4 py-3 text-sm text-brand-slate">
+          <label className="flex items-start gap-3 rounded-2xl border border-night-line bg-night-raised px-4 py-3 text-sm text-night-soft">
             <input
               type="checkbox"
-              className="mt-1 h-4 w-4 shrink-0 rounded border-brand-line text-brand-accent focus:ring-brand-accent"
+              className="mt-1 h-4 w-4 shrink-0 rounded border-night-line bg-night-bg text-brand-accent focus:ring-brand-accent"
               checked={consent}
               onChange={(event) => setConsent(event.target.checked)}
             />
@@ -175,12 +175,12 @@ export default function FinalCapture({ name, submitting, onSubmit }: Props) {
             </span>
           </label>
           {errors.consent && (
-            <p className="text-sm font-medium text-rose-600">{errors.consent}</p>
+            <p className="text-sm font-medium text-tone-danger">{errors.consent}</p>
           )}
 
 
-          <div className="rounded-2xl border border-brand-line bg-white px-4 py-4 text-sm leading-relaxed text-brand-slate">
-            <p className="font-semibold text-brand-ink">Agora, você pode conversar com a Ana.</p>
+          <div className="rounded-2xl border border-night-line bg-night-raised px-4 py-4 text-sm leading-relaxed text-night-soft">
+            <p className="font-semibold text-night-ink">Agora, você pode conversar com a Ana.</p>
             <p className="mt-2">
               A Ana faz parte da equipe Lucro Recorrente e é especialista em ajudar
               educadores, consultores e planejadores financeiros a transformar
@@ -194,7 +194,7 @@ export default function FinalCapture({ name, submitting, onSubmit }: Props) {
             {submitting ? "Liberando..." : "Liberar meu resultado"}
           </button>
 
-          <p className="text-xs leading-relaxed text-brand-mute">
+          <p className="text-xs leading-relaxed text-night-mute">
             Sem spam. Seus dados serão usados apenas para enviar seu resultado e
             dar continuidade ao plano, caso você solicite.
           </p>

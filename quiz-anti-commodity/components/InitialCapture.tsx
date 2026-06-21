@@ -33,11 +33,11 @@ export default function InitialCapture({
     <section className="fade-in">
       <BrandHeader />
 
-      <div className="card-base sm:p-8">
-        <h2 className="text-2xl font-semibold leading-tight text-brand-ink sm:text-3xl">
+      <div className="card-base sm:p-10">
+        <h2 className="font-serif text-3xl font-semibold leading-tight text-night-ink sm:text-4xl">
           Antes de começar, como posso te chamar?
         </h2>
-        <p className="mt-3 text-sm text-brand-mute">
+        <p className="mt-3 text-sm leading-relaxed text-night-soft">
           Esses dados servem só para personalizar seu diagnóstico.
         </p>
 
@@ -60,7 +60,7 @@ export default function InitialCapture({
             {error && (
               <p
                 id="name-error"
-                className="mt-2 text-sm font-medium text-rose-600"
+                className="mt-2 text-sm font-medium text-tone-danger"
               >
                 {error}
               </p>

@@ -3,10 +3,10 @@
 @tailwind utilities;
 
 :root {
-  --color-bg: #ffffff;
-  --color-ink: #051933;
-  --color-accent: #ff6600;
-  --color-slate: #1f2937;
+  --color-bg: #0A1024;
+  --color-ink: #F5F1E8;
+  --color-accent: #FF6600;
+  --color-soft: #C6CCDC;
 }
 
 html,
@@ -18,39 +18,33 @@ body {
 }
 
 body {
-  font-family:
-    ui-sans-serif,
-    system-ui,
-    -apple-system,
-    "Segoe UI",
-    Helvetica,
-    Arial,
-    sans-serif;
+  font-family: var(--font-sans), ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", Helvetica, Arial, sans-serif;
 }
 
 @layer components {
   .btn-primary {
-    @apply inline-flex h-12 w-full items-center justify-center rounded-2xl bg-brand-accent px-6 text-base font-semibold text-white shadow-cta transition-transform duration-200 ease-out hover:brightness-105 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto sm:px-8;
+    @apply inline-flex h-12 w-full items-center justify-center rounded-2xl bg-brand-accent px-6 text-base font-semibold text-white shadow-cta transition-transform duration-200 ease-out hover:brightness-110 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto sm:px-8;
   }
 
   .btn-secondary {
-    @apply inline-flex h-12 w-full items-center justify-center rounded-2xl border border-brand-line bg-white px-6 text-base font-semibold text-brand-ink transition-colors duration-200 hover:bg-brand-soft sm:w-auto sm:px-8;
+    @apply inline-flex h-12 w-full items-center justify-center rounded-2xl border border-night-line bg-transparent px-6 text-base font-semibold text-night-ink transition-colors duration-200 hover:bg-night-surface sm:w-auto sm:px-8;
   }
 
   .field-label {
-    @apply mb-2 block text-sm font-medium text-brand-ink;
+    @apply mb-2 block text-sm font-medium text-night-ink;
   }
 
   .field-input {
-    @apply h-12 w-full rounded-2xl border border-brand-line bg-white px-4 text-base text-brand-ink outline-none transition-colors duration-200 placeholder:text-brand-mute focus:border-brand-accent;
+    @apply h-12 w-full rounded-2xl border border-night-line bg-night-raised px-4 text-base text-night-ink outline-none transition-colors duration-200 placeholder:text-night-mute focus:border-brand-accent;
   }
 
   .card-base {
-    @apply rounded-2xl border border-brand-line bg-white p-5 shadow-card;
+    @apply overflow-hidden rounded-2xl border border-night-line bg-night-surface p-6 shadow-editorial;
   }
 
   .pill {
-    @apply inline-flex items-center gap-2 rounded-full bg-brand-soft px-3 py-1 text-xs font-medium text-brand-slate;
+    @apply inline-flex items-center gap-2 rounded-full bg-night-raised px-3 py-1 text-xs font-medium text-night-soft;
   }
 
   .fade-in {

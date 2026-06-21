@@ -8,11 +8,12 @@ export default function ProgressBar({ current, total }: Props) {
   const percent = Math.min(100, Math.round((current / safeTotal) * 100));
   return (
     <div className="mb-6">
-      <div className="mb-2 flex items-center justify-between text-xs font-medium text-brand-mute">
-        <span>{`Pergunta ${current} de ${total}`}</span>
-        <span>{`${percent}%`}</span>
+      <div className="mb-3 text-center">
+        <span className="text-[11px] font-semibold uppercase tracking-kicker text-night-mute">
+          {`Diagnóstico ${current} / ${total}`}
+        </span>
       </div>
-      <div className="h-2 w-full overflow-hidden rounded-full bg-brand-soft">
+      <div className="h-1 w-full overflow-hidden rounded-full bg-night-line">
         <div
           className="h-full rounded-full bg-brand-accent transition-all duration-300 ease-out"
           style={{ width: `${percent}%` }}

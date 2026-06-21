@@ -1,7 +1,7 @@
 export default function Footer() {
   return (
-    <footer className="mt-10 border-t border-brand-line pt-6 text-xs leading-relaxed text-brand-mute">
-      <p className="font-medium text-brand-slate">
+    <footer className="mt-10 border-t border-night-line pt-6 text-xs leading-relaxed text-night-mute">
+      <p className="font-medium text-night-soft">
         Termômetro Anti-Commodity · Uma ferramenta do Consultor 10K
       </p>
       <p className="mt-2">

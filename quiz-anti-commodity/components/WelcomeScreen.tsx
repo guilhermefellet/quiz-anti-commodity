@@ -10,15 +10,15 @@ type Props = {
 const BENEFITS = [
   {
     icon: Timer,
-    text: "Resultado em menos de 2 minutos",
+    text: "Diagnóstico em menos de 2 minutos",
   },
   {
     icon: Compass,
-    text: "Leitura prática sobre seu posicionamento",
+    text: "Onde está seu teto hoje e por que",
   },
   {
     icon: ArrowRight,
-    text: "Próximo passo claro para sair da comparação",
+    text: "Próximo passo concreto pra sair do 1 a 1",
   },
 ];
 
@@ -27,40 +27,43 @@ export default function WelcomeScreen({ onStart }: Props) {
     <section className="fade-in">
       <BrandHeader />
 
-      <div className="card-base sm:p-8">
-        <h1 className="text-2xl font-semibold leading-tight text-brand-ink sm:text-3xl">
+      <div className="card-base sm:p-10">
+        <p className="text-[11px] font-semibold uppercase tracking-kicker text-night-mute">
+          Diagnóstico Consultor 10K
+        </p>
+        <h1 className="mt-3 font-serif text-3xl font-semibold leading-tight text-night-ink sm:text-4xl">
           Você é percebido como autoridade financeira ou como só mais um
           consultor no mercado?
         </h1>
-        <p className="mt-4 text-base leading-relaxed text-brand-slate">
-          Responda 7 perguntas rápidas e descubra se sua comunicação, oferta e
-          captação estão te posicionando como escolha óbvia, ou te colocando na
-          mesma prateleira de todos os outros.
+        <p className="mt-4 text-base leading-relaxed text-night-soft">
+          Sete perguntas rápidas que mostram se sua comunicação, oferta e
+          captação te posicionam como escolha óbvia ou te empurram pra mesma
+          prateleira de todos os outros consultores financeiros.
         </p>
 
-        <ul className="mt-6 space-y-3">
+        <ul className="mt-7 space-y-3">
           {BENEFITS.map(({ icon: Icon, text }) => (
             <li
               key={text}
-              className="flex items-start gap-3 rounded-2xl bg-brand-soft px-4 py-3"
+              className="flex items-start gap-3 rounded-2xl border border-night-line bg-night-raised px-4 py-3"
             >
-              <span className="mt-0.5 inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white text-brand-ink shadow-card">
+              <span className="mt-0.5 inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-night-bg text-brand-accent ring-1 ring-night-line">
                 <Icon size={18} strokeWidth={1.75} />
               </span>
-              <span className="text-sm font-medium text-brand-ink">{text}</span>
+              <span className="text-sm font-medium text-night-ink">{text}</span>
             </li>
           ))}
         </ul>
 
-        <div className="mt-7">
+        <div className="mt-8">
           <button type="button" onClick={onStart} className="btn-primary">
-            Começar o teste
+            Quero ver onde meu modelo trava
           </button>
         </div>
 
-        <p className="mt-4 text-xs leading-relaxed text-brand-mute">
-          Sem enrolação. Sem fórmula genérica. Apenas uma leitura direta sobre o
-          seu momento atual.
+        <p className="mt-4 text-xs leading-relaxed text-night-mute">
+          A resposta sincera sobre onde seu modelo de receita trava. Para CFP,
+          CPA, ANCORD e planejadores certificados que ainda dependem do 1 a 1.
         </p>
       </div>
     </section>
