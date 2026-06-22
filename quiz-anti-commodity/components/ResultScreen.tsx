@@ -73,10 +73,35 @@ export default function ResultScreen({
   );
 
   function handleWhatsapp() {
-    trackEvent("whatsapp_clicked", {
-      result: result.key,
-      bottleneck: bottleneckLabel,
-    });
+    const eventId = trackEvent(
+      "whatsapp_clicked",
+      {
+        result: result.key,
+        bottleneck: bottleneckLabel,
+      },
+    );
+    // Dispatch CAPI server-side em paralelo. keepalive garante envio
+    // mesmo se a aba navegar pro WhatsApp Web imediatamente após o clique.
+    try {
+      void fetch("/api/track", {
+        method: "POST",
+        keepalive: true,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          eventName: "Contact",
+          eventId,
+          eventSourceUrl:
+            typeof window !== "undefined" ? window.location.href : "",
+          firstName: firstName || undefined,
+          customData: {
+            result: result.key,
+            bottleneck: bottleneckLabel,
+          },
+        }),
+      });
+    } catch {
+      // silencioso: tracking nunca derruba UX
+    }
   }
 
   async function handleShare() {

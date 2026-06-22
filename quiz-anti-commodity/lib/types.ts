@@ -31,6 +31,11 @@ export type SubmitRequestBody = {
   totalScore?: number;
   resultTitle?: string;
   mainBottleneck?: string;
+  /**
+   * Event ID gerado no client antes do POST. Reusado pelo Pixel client
+   * (fbq Lead) e pelo CAPI server (sendCapiEvent Lead) pra deduplicação.
+   */
+  leadEventId?: string;
   pageUrl?: string;
   utm_source?: string;
   utm_medium?: string;

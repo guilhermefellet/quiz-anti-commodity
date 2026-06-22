@@ -128,6 +128,13 @@ export default function HomePage() {
       if (!result || !bottleneck) return;
       setSubmitting(true);
       setStep("analyzing");
+
+      // Mesmo event_id pro Pixel (client) e CAPI (server). Garante dedup.
+      const leadEventId =
+        typeof crypto !== "undefined" && "randomUUID" in crypto
+          ? crypto.randomUUID()
+          : `${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
+
       const payload = {
         name: initial.name,
         profession: initial.profession,
@@ -138,6 +145,7 @@ export default function HomePage() {
         totalScore: score,
         resultTitle: result.key,
         mainBottleneck: bottleneck.label,
+        leadEventId,
         pageUrl: typeof window !== "undefined" ? window.location.href : "",
         utm_source: utms.utmSource,
         utm_medium: utms.utmMedium,
@@ -159,11 +167,15 @@ export default function HomePage() {
         // mantém o fluxo mesmo se a persistência falhar; resultado precisa aparecer.
       } finally {
         setSubmitting(false);
-        trackEvent("result_viewed", {
-          result: result.key,
-          score,
-          bottleneck: bottleneck.label,
-        });
+        trackEvent(
+          "result_viewed",
+          {
+            result: result.key,
+            score,
+            bottleneck: bottleneck.label,
+          },
+          { eventId: leadEventId },
+        );
         setStep("result");
       }
     },

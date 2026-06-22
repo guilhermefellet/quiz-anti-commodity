@@ -7,6 +7,7 @@ import {
   type MakeWebhookResult,
 } from "@/lib/integrations/make";
 import { QUIZ_QUESTIONS, RESULT_PROFILES } from "@/lib/quiz-data";
+import { sendCapiEvent, normalizeWhatsappE164 } from "@/lib/meta-capi";
 import type {
   EnrichedAnswer,
   QuizSubmissionRecord,
@@ -229,7 +230,77 @@ export async function POST(request: Request) {
     };
   }
 
-  console.log("[submit]", { id, persisted: true, webhook: webhookResult });
+  // Dispatch Lead via Meta Conversion API (server-side).
+  // Usa o mesmo event_id que o client mandou pra deduplicar com o fbq Lead.
+  // Pega fbp/fbc dos cookies pra cruzar com o navegador do user.
+  const leadEventId = (body.leadEventId ?? "").trim();
+  let capiResult: Awaited<ReturnType<typeof sendCapiEvent>> | { skipped: true; reason: string } = {
+    skipped: true,
+    reason: "no_lead_event_id",
+  };
+  if (leadEventId) {
+    const cookieHeader = request.headers.get("cookie") ?? "";
+    const fbp = readCookie(cookieHeader, "_fbp");
+    const fbc = readCookie(cookieHeader, "_fbc");
+    const ip = readClientIp(request);
+    try {
+      capiResult = await sendCapiEvent({
+        eventName: "Lead",
+        eventId: leadEventId,
+        eventSourceUrl: record.pageUrl || undefined,
+        userData: {
+          email,
+          phone: normalizeWhatsappE164(whatsapp),
+          firstName: name.split(" ")[0],
+          externalId: id,
+          fbp,
+          fbc,
+          clientIpAddress: ip,
+          clientUserAgent: userAgent,
+        },
+        customData: {
+          quiz_result: resultTitle,
+          quiz_score: record.totalScore,
+          quiz_max_score: MAX_SCORE,
+          main_bottleneck: record.mainBottleneck,
+          investment_capacity: investmentCapacity,
+          utm_source: record.utm_source,
+          utm_medium: record.utm_medium,
+          utm_campaign: record.utm_campaign,
+          utm_content: record.utm_content,
+          utm_term: record.utm_term,
+        },
+      });
+    } catch (error) {
+      capiResult = {
+        ok: false,
+        error: error instanceof Error ? error.message : "unknown",
+      };
+    }
+  }
+
+  console.log("[submit]", {
+    id,
+    persisted: true,
+    webhook: webhookResult,
+    capi: capiResult,
+  });
 
   return NextResponse.json({ ok: true, id });
+}
+
+function readCookie(cookieHeader: string, name: string): string | undefined {
+  if (!cookieHeader) return undefined;
+  const parts = cookieHeader.split(";");
+  for (const part of parts) {
+    const [k, ...rest] = part.trim().split("=");
+    if (k === name) return rest.join("=");
+  }
+  return undefined;
+}
+
+function readClientIp(request: Request): string | undefined {
+  const forwarded = request.headers.get("x-forwarded-for");
+  if (forwarded) return forwarded.split(",")[0]?.trim();
+  return request.headers.get("x-real-ip") ?? undefined;
 }
